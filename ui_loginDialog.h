@@ -39,7 +39,7 @@ public:
     QLineEdit *validationEdit;
     QLabel *validation;
     QSpacerItem *horizontalSpacer;
-    QPushButton *pushButton;
+    QPushButton *setButton;
     QSpacerItem *horizontalSpacer_4;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer_2;
@@ -140,10 +140,10 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
-        pushButton = new QPushButton(LoginDialog);
-        pushButton->setObjectName("pushButton");
+        setButton = new QPushButton(LoginDialog);
+        setButton->setObjectName("setButton");
 
-        horizontalLayout->addWidget(pushButton);
+        horizontalLayout->addWidget(setButton);
 
         horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -193,7 +193,7 @@ public:
         QWidget::setTabOrder(techRadio, stuRadio);
         QWidget::setTabOrder(stuRadio, admRadio);
         QWidget::setTabOrder(admRadio, loginButton);
-        QWidget::setTabOrder(loginButton, pushButton);
+        QWidget::setTabOrder(loginButton, setButton);
 
         retranslateUi(LoginDialog);
 
@@ -212,7 +212,7 @@ public:
         passEdit->setText(QCoreApplication::translate("LoginDialog", "123456", nullptr));
         label_3->setText(QCoreApplication::translate("LoginDialog", "\351\252\214\350\257\201\347\240\201\357\274\232", nullptr));
         validation->setText(QString());
-        pushButton->setText(QCoreApplication::translate("LoginDialog", "\350\256\276\347\275\256", nullptr));
+        setButton->setText(QCoreApplication::translate("LoginDialog", "\350\256\276\347\275\256", nullptr));
         techRadio->setText(QCoreApplication::translate("LoginDialog", "\346\225\231\345\270\210", nullptr));
         stuRadio->setText(QCoreApplication::translate("LoginDialog", "\345\255\246\347\224\237", nullptr));
         admRadio->setText(QCoreApplication::translate("LoginDialog", "\347\256\241\347\220\206\345\221\230", nullptr));

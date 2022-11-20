@@ -9,6 +9,7 @@
 #include <QSqlQueryModel>
 #include "ui_loginDialog.h"
 #include "manageDialog.h"
+#include "struct.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +23,7 @@ public:
     explicit loginDialog(QWidget *parent = nullptr);
 
     ~loginDialog() override;
+    void setConfig(setConfig config);
 
 private:
     Ui::LoginDialog *ui;
@@ -33,15 +35,20 @@ private:
     QSqlQueryModel model;
     //用户名
     QString name;
+    //配置
+    struct setConfig m_config;
     //身份
     QString m_table;
     // 关闭按钮被点击
-    void closeEvent(QCloseEvent *event) override;
+    void closeEvent(QCloseEvent *) override;
     //绘图事件
     void paintEvent(QPaintEvent*) override;
+    //鼠标点击事件
+    void mousePressEvent(QMouseEvent*) override;
     //设置验证码
     void setValidation();
-
+    //读取配置文件
+    void loadConfig();
 
 private slots:
     //教师单选框被点击
@@ -50,7 +57,8 @@ private slots:
     void on_stuRadio_clicked();
     //管理员单选框被点击
     void on_admRadio_clicked();
-
+    //设置按钮被点击
+    void on_setButton_clicked();
 };
 
 

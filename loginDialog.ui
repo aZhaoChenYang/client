@@ -158,7 +158,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="setButton">
        <property name="text">
         <string>设置</string>
        </property>
@@ -254,7 +254,7 @@
   <tabstop>stuRadio</tabstop>
   <tabstop>admRadio</tabstop>
   <tabstop>loginButton</tabstop>
-  <tabstop>pushButton</tabstop>
+  <tabstop>setButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
