@@ -12,6 +12,8 @@
 #include <QDebug>
 #include<QSettings>
 #include <utility>
+#include <QSqlDatabase>
+#include <QMessageBox>
 
 loginDialog::loginDialog(QWidget *parent) :
         QDialog(parent), ui(new Ui::LoginDialog) {
@@ -96,6 +98,25 @@ void loginDialog::setConfig(struct setConfig config) {
     settings.setValue("conn/dataname",m_config.dataname);
     settings.setValue("conn/udpport",QString::number(m_config.udpport));
     settings.setValue("conn/tcpport",QString::number(m_config.tcpport));
+}
+
+void loginDialog::on_loginButton_clicked() {
+    //打开数据库
+    QSqlDatabase db;
+    if(QSqlDatabase::contains("qt_sql_default_connection"))
+        db = QSqlDatabase::database("qt_sql_default_connection");
+    else
+        db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName(m_config.ip);
+    db.setUserName(m_config.datausr);
+    db.setPassword(m_config.datapass);
+    db.setDatabaseName(m_config.dataname);
+    if(!db.open()){
+        QMessageBox::information(NULL,"提示","系统载入数据库失败，无法运行",QMessageBox::Yes);
+        return;
+    }else {
+        QMessageBox::information(NULL,"提示","数据集加载成功，无法运行",QMessageBox::Yes);
+    }
 }
 
 

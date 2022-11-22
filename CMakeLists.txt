@@ -6,7 +6,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_PREFIX_PATH "D:/Qt/6.4.1/mingw_64")
+set(CMAKE_PREFIX_PATH "D:/Qt/6.4.1/msvc2019_64")
+set(MYSQL_INSTALL_PATH "C:/Program Files/MySQL/MySQL Server 8.0")
 
 find_package(Qt6 COMPONENTS
         Core
@@ -69,6 +70,21 @@ if (WIN32)
                 "${QT_INSTALL_PATH}/plugins/tls/qschannelbackend${DEBUG_SUFFIX}.dll"
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/tls/")
     endif ()
+    if (EXISTS "${QT_INSTALL_PATH}/plugins/sqldrivers/qsqlmysql${DEBUG_SUFFIX}.dll")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E make_directory
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/sqldrivers/")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${QT_INSTALL_PATH}/plugins/sqldrivers/qsqlmysql${DEBUG_SUFFIX}.dll"
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/sqldrivers/")
+    endif()
+    if (EXISTS "${MYSQL_INSTALL_PATH}/lib/libmysql.dll")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${MYSQL_INSTALL_PATH}/lib/libmysql.dll"
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/")
+    endif()
     foreach (QT_LIB Core Gui Widgets Network Sql)
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy

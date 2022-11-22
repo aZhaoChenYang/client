@@ -59,6 +59,8 @@ private slots:
     void on_admRadio_clicked();
     //设置按钮被点击
     void on_setButton_clicked();
+    //登录按钮被点击
+    void on_loginButton_clicked();
 };
 
 
