@@ -2,14 +2,11 @@
 // Created by zhaochenyang on 2022/11/16.
 //
 
-#ifndef UNTITLED3_MANAGEDIALOG_H
-#define UNTITLED3_MANAGEDIALOG_H
+#ifndef CLIENT_MANAGEDIALOG_H
+#define CLIENT_MANAGEDIALOG_H
 
 #include <QWidget>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QTimer>
 #include "ui_manageDialog.h"
 
 
@@ -30,8 +27,6 @@ private:
     void sendRequest();
 
     Ui::ManageDialog *ui{};
-    QNetworkAccessManager* manager;//管理通信
-    QNetworkRequest* request;//请求
     QNetworkReply* reply{};//响应数据
     QString replyBuf;//保存从服务器返回的响应数据
     QTimer* timer;
@@ -45,4 +40,4 @@ private slots:
 };
 
 
-#endif //UNTITLED3_MANAGEDIALOG_H
+#endif //CLIENT_MANAGEDIALOG_H

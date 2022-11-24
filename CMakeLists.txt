@@ -13,6 +13,7 @@ find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
+        Core5Compat
         Sql
         Network
         REQUIRED)
@@ -24,6 +25,7 @@ target_link_libraries(client
         Qt::Widgets
         Qt::Sql
         Qt::Network
+        Qt::Core5Compat
         )
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -85,7 +87,7 @@ if (WIN32)
                 "${MYSQL_INSTALL_PATH}/lib/libmysql.dll"
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>/")
     endif()
-    foreach (QT_LIB Core Gui Widgets Network Sql)
+    foreach (QT_LIB Core Gui Widgets Network Sql Core5Compat)
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy
                 "${QT_INSTALL_PATH}/bin/Qt6${QT_LIB}${DEBUG_SUFFIX}.dll"

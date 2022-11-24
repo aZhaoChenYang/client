@@ -5,6 +5,8 @@
 // You may need to build the project (run Qt uic code generator) to get "ui_manageDialog.h" resolved
 
 
+#include <QRegExp>
+#include <QTimer>
 #include "manageDialog.h"
 #include "ui_manageDialog.h"
 #include "loginDialog.h"
@@ -12,23 +14,16 @@
 manageDialog::manageDialog(QWidget *parent) :
         QWidget(parent), ui(new Ui::ManageDialog) {
     ui->setupUi(this);
-//
-//    QIcon image("./xue.ico");
-//    qDebug() << image.isNull();
-//    qDebug() << image;
-//    setWindowIcon(image);
     setWindowIcon(QIcon("resource/xue.ico"));
 
-    manager = new QNetworkAccessManager(this);
-    request = new QNetworkRequest(
-            QUrl("https://tianqi.so.com/weather/101010100"));
+
     sendRequest();
 
     timer = new QTimer(this);
     timer->start(1000);
     connect(timer, SIGNAL(timeout()),this, SLOT(updateTime()));
-    loginDialog l(this);
-    l.exec();
+//    loginDialog l(this);
+//    l.exec();
 
 }
 
@@ -37,8 +32,10 @@ manageDialog::~manageDialog() {
 }
 
 void manageDialog::sendRequest() {
+    auto *manager = new QNetworkAccessManager(this);
+    QNetworkRequest request(QUrl("https://tianqi.so.com/weather/101010100"));
     //发送请求,返回用于接收响应数据reply对象
-    reply = manager->get(*request);
+    reply = manager->get(request);
     //收到服务器返回的响应数据时,发送信号readyRead
     connect(reply,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
     //响应数据接收结束,发送信号finished
@@ -51,22 +48,13 @@ void manageDialog::onReadyRead() {
 }
 
 void manageDialog::onFinished() {
-    QString data;
-    //显示接收的数据
-    int begin = replyBuf.indexOf("<div class=\"weather-date\">");
-    QString str = replyBuf.mid(begin);
-    int end = str.indexOf("</div></li></ul><ul class=\"weather-columns\">");
-    str = str.mid(0,end);
-    begin = str.indexOf("</div><div>");
-    str = str.mid(begin + 11);
-    end = str.indexOf("</div>");
-    data = str.mid(0,end);
-    data.remove('\n');
-    data.remove(' ');
-    str = str.mid(end + 11);
-    end = str.indexOf("</div>");
-    data +=  ' ' + str.mid(0,end);
-    ui->weither->setText(data);
+    QRegExp rx("今天.*\n(.*)</div><div>(.*)</div>.*</div><div>(.*)</div>");
+    rx.setMinimal(true);
+    int pos = rx.indexIn(replyBuf);
+    if(pos > 0) {
+        QString data = QString("%1 %2 %3").arg(rx.cap(1).trimmed(), rx.cap(2), rx.cap(3));
+        ui->weither->setText(data);
+    }
 }
 
 void manageDialog::updateTime() {
