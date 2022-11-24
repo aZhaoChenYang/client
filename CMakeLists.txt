@@ -7,7 +7,6 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_PREFIX_PATH "D:/Qt/6.4.1/msvc2019_64")
-set(MYSQL_INSTALL_PATH "C:/Program Files/MySQL/MySQL Server 8.0")
 
 find_package(Qt6 COMPONENTS
         Core
@@ -18,7 +17,20 @@ find_package(Qt6 COMPONENTS
         Network
         REQUIRED)
 
-add_executable(client main.cpp manageDialog.cpp manageDialog.h manageDialog.ui loginDialog.cpp loginDialog.h loginDialog.ui setDialog.cpp setDialog.h setDialog.ui struct.h)
+set(PROJECT_SOURCE
+        main.cpp
+        manageDialog.cpp
+        manageDialog.h
+        manageDialog.ui
+        loginDialog.cpp
+        loginDialog.h
+        loginDialog.ui
+        setDialog.cpp
+        setDialog.h
+        setDialog.ui
+        struct.h)
+
+add_executable(client ${PROJECT_SOURCE})
 target_link_libraries(client
         Qt::Core
         Qt::Gui
@@ -31,18 +43,21 @@ target_link_libraries(client
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory
         "$<TARGET_FILE_DIR:${PROJECT_NAME}>/resource/")
+
 foreach (RESOURCE xue.ico adminlog.png studentlog.png teacherlog.png)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${CMAKE_SOURCE_DIR}/resource/${RESOURCE}"
             "$<TARGET_FILE_DIR:${PROJECT_NAME}>/resource/")
 endforeach (RESOURCE)
+
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_SOURCE_DIR}/config.ini"
         "$<TARGET_FILE_DIR:${PROJECT_NAME}>/")
 
 if (WIN32)
+    set(MYSQL_INSTALL_PATH "C:/Program Files/MySQL/MySQL Server 8.0")
     set(DEBUG_SUFFIX)
     if (MSVC AND CMAKE_BUILD_TYPE MATCHES "Debug")
         set(DEBUG_SUFFIX "d")

@@ -19,18 +19,24 @@ QT_END_NAMESPACE
 class loginDialog : public QDialog {
 Q_OBJECT
 
+
+
 public:
     explicit loginDialog(QWidget *parent = nullptr);
 
     ~loginDialog() override;
     void setConfig(setConfig config);
+    //获取身份
+    QString getType();
+    //获取姓名
+    QString getName();
 
 private:
     Ui::LoginDialog *ui;
     //配置文件名
     QString filename;
     //验证码
-    int m_validaiton{};
+    int m_validation{};
     //sql结果集
     QSqlQueryModel model;
     //用户名
@@ -49,6 +55,7 @@ private:
     void setValidation();
     //读取配置文件
     void loadConfig();
+
 
 private slots:
     //教师单选框被点击

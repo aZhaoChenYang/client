@@ -14,16 +14,20 @@
 manageDialog::manageDialog(QWidget *parent) :
         QWidget(parent), ui(new Ui::ManageDialog) {
     ui->setupUi(this);
-    setWindowIcon(QIcon("resource/xue.ico"));
-
 
     sendRequest();
-
     timer = new QTimer(this);
     timer->start(1000);
     connect(timer, SIGNAL(timeout()),this, SLOT(updateTime()));
-//    loginDialog l(this);
-//    l.exec();
+
+    loginDialog l(this);
+    l.exec();
+    m_name = l.getName();
+    m_type = l.getType();
+    ui->userlabel->setText(m_name);
+    setWindowTitle("学生信息管理系统     -" + m_name);
+    ui->pushButton->setEnabled(true);
+    ui->workmanage->setEnabled(true);
 
 }
 

@@ -25,11 +25,12 @@ public:
 private:
     //向服务器发送请求
     void sendRequest();
-
     Ui::ManageDialog *ui{};
     QNetworkReply* reply{};//响应数据
     QString replyBuf;//保存从服务器返回的响应数据
     QTimer* timer;
+    QString m_name;//用户名
+    QString m_type;//身份
 
 private slots:
     //接收天气响应数据的槽函数
